@@ -58,6 +58,7 @@
 #include "supported/LaserGates.hpp"
 #include "supported/LostLuggage.hpp"
 #include "supported/MontezumaRevenge.hpp"
+#include "supported/MontezumaRevengeBreadcrumbs.hpp"
 #include "supported/MrDo.hpp"
 #include "supported/MsPacman.hpp"
 #include "supported/NameThisGame.hpp"
@@ -136,6 +137,7 @@ static const RomSettings *roms[]  = {
     new LaserGatesSettings(),
     new LostLuggageSettings(),
     new MontezumaRevengeSettings(),
+    new MontezumaRevengeBreadcrumbsSettings(),
     new MrDoSettings(),
     new MsPacmanSettings(),
     new NameThisGameSettings(),

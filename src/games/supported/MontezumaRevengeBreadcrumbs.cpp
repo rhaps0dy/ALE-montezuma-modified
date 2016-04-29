@@ -115,15 +115,11 @@ void MontezumaRevengeBreadcrumbsSettings::step(const System& system) {
     int score = getDecimalScore(0x95, 0x94, 0x93, &system); 
 	int dx = readRam(&system, 0xAA) - m_trail[m_trail_i][0];
 	int dy = readRam(&system, 0xAB) - m_trail[m_trail_i][1];
-//	std::cout << m_trail_i << " mtrail\n";
-
-//	std::cout << "dx: " << dx << " dy: " << dy << " ramy: " <<  m_trail[m_<< " trail: " << m_trail[1][m_trail_i] << std::endl;
 
     int reward = score - m_score - 1;
 	if(dx*dx + dy*dy/4 <= 50) {
 		reward += 50;
 		m_trail_i++;
-		std::cout << "increased trail\n";
 	}
 
     // update terminal status

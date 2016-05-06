@@ -47,7 +47,7 @@ class MontezumaRevengeBreadcrumbsSettings : public RomSettings {
         reward_t getReward() const;
 
         // the rom-name
-        const char* rom() const { return "montezuma_revenge_breadcrumbs"; }
+        const char* rom() const { return "montezuma_revenge"; }
 
         // create a new instance of the rom
         RomSettings* clone() const;

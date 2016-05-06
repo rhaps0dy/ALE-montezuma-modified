@@ -112,30 +112,32 @@ RomSettings* MontezumaRevengeBreadcrumbsSettings::clone() const {
 void MontezumaRevengeBreadcrumbsSettings::step(const System& system) {
 
     // update the reward
-    int score = getDecimalScore(0x95, 0x94, 0x93, &system); 
-	int dx = readRam(&system, 0xAA) - m_trail[m_trail_i][0];
-	int dy = readRam(&system, 0xAB) - m_trail[m_trail_i][1];
+//    int score = getDecimalScore(0x95, 0x94, 0x93, &system);
+	int dx = readRam(&system, 0xAA) - 0x85;
+	int dy = readRam(&system, 0xAB) - 0xc0;
+    int new_lives = readRam(&system, 0xBA) + 1;
 
-    int reward = score - m_score - 1;
-	if(dx*dx + dy*dy/4 <= 50) {
-		reward += 50;
-		m_trail_i++;
+	if(dx*dx + dy*dy/4 <= 10) {
+		m_reward = 50;
+		m_terminal = true;
+	} else if (new_lives < m_lives) {
+		m_reward = -300;
+		m_terminal = true;
+	} else {
+		m_reward = 0;
+		m_terminal = false;
 	}
 
     // update terminal status
-    int new_lives = readRam(&system, 0xBA);
-	if(new_lives < m_lives) {
-		reward -= 300;
-	}
 	// Actually does not go up to 8, but that's alright
 	//m_lives = (new_lives & 0x7) + 1;
 	m_lives = new_lives;
-    m_reward = reward;
-    m_score = score;
+//    m_reward = reward;
+//    m_score = score;
 
-    int some_byte = readRam(&system, 0xFE);
-    m_terminal = m_trail_i == sizeof(m_trail)/sizeof(m_trail[0]) ||
-		(new_lives == 0 && some_byte == 0x60);
+//    int some_byte = readRam(&system, 0xFE);
+//    m_terminal = m_trail_i == sizeof(m_trail)/sizeof(m_trail[0]) ||
+//		(new_lives == 0 && some_byte == 0x60);
 }
 
 
@@ -188,7 +190,7 @@ void MontezumaRevengeBreadcrumbsSettings::reset() {
     m_reward   = 0;
     m_score    = 0;
     m_terminal = false;
-    m_lives    = 6;
+    m_lives    = 0; // avoid setting terminal at the beginning
 }
 
 

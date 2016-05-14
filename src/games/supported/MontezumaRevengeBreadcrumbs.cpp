@@ -59,7 +59,7 @@ const vector<vector<pair<int, int> > > &MontezumaRevengeBreadcrumbsSettings::m_t
 		{0x15, 0xa0},
 		{0x15, 0xaf},
 		{0x15, 0xc0}}, {
-
+		{0x15, 0xc0},
 		{0x15, 0xaf},
 		{0x15, 0xa0},
 
@@ -135,14 +135,15 @@ void MontezumaRevengeBreadcrumbsSettings::step(const System& system) {
 		m_reward = -100;
 		m_terminal = true;
 	} else {
-		m_reward = -1 + 30*(score-m_score);
+		m_reward = -1 + (score-m_score);
 		int trail_i = m_trail_lookup[y][x];
 		if(trail_i > m_trail_i) {
 			m_reward += 50*(trail_i-m_trail_i);
 			m_trail_i = trail_i;
 		}
-		if(m_trail_i == (int) m_trail()[m_trail_j].size()) {
+		if(m_trail_j ==0 && (readRam(&system, 0xC1) & 0x1e) != 0) {
 			m_trail_j++;
+			paint_m_trail_lookup();
 			m_trail_i = 0;
 		}
 		m_terminal = m_trail_j == (int) m_trail().size();

@@ -28,7 +28,8 @@
 #define __MONTEZUMAREVENGEBREADCRUMBS_HPP__
 
 #include "../RomSettings.hpp"
-
+#include <vector>
+#include <utility>
 
 /* RL wrapper for Montezuma RevengeBreadcrumbs */
 class MontezumaRevengeBreadcrumbsSettings : public RomSettings {
@@ -72,8 +73,12 @@ class MontezumaRevengeBreadcrumbsSettings : public RomSettings {
         reward_t m_reward;
         reward_t m_score;
         int m_lives;
-		static const int m_trail[][2];
+	static std::vector<std::vector<std::pair<int, int> > > _m_trail;
+	static const std::vector<std::vector<std::pair<int, int> > > &m_trail();
+	int m_trail_j;
 	int m_trail_i;
+	int m_trail_lookup[0x100][0x100];
+	void paint_m_trail_lookup();
 };
 
 #endif // __MONTEZUMAREVENGEBREADCRUMBS_HPP__

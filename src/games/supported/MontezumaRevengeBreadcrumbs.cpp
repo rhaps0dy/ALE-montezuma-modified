@@ -132,13 +132,13 @@ void MontezumaRevengeBreadcrumbsSettings::step(const System& system) {
     int new_lives = readRam(&system, 0xBA) + 1;
 
 	if(new_lives < m_lives) {
-		m_reward = -100;
+		m_reward = -400;
 		m_terminal = true;
 	} else {
-		m_reward = -1 + (score-m_score);
+		m_reward = -1 + 3*(score-m_score);
 		int trail_i = m_trail_lookup[y][x];
-		if(trail_i > m_trail_i) {
-			m_reward += 50*(trail_i-m_trail_i);
+		if(trail_i > m_trail_i && trail_i-m_trail_i <= 5) {
+			m_reward += 150*(trail_i-m_trail_i);
 			m_trail_i = trail_i;
 		}
 		if(m_trail_j ==0 && (readRam(&system, 0xC1) & 0x1e) != 0) {

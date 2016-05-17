@@ -75,9 +75,9 @@ class MontezumaRevengeBreadcrumbsSettings : public RomSettings {
         int m_lives;
 	static std::vector<std::vector<std::pair<int, int> > > _m_trail;
 	static const std::vector<std::vector<std::pair<int, int> > > &m_trail();
-	int m_trail_j;
 	int m_trail_i;
-	int m_trail_lookup[0x100][0x100];
+	int m_trail_j;
+	int m_trail_lookup[0x100][0x100][2];
 	void paint_m_trail_lookup();
 };
 

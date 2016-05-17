@@ -36,9 +36,9 @@ const vector<vector<pair<int, int> > > &MontezumaRevengeBreadcrumbsSettings::m_t
 	if(_m_trail.size() == 0) {
 	_m_trail = { {
 		{0x6d, 0xc5},
-		{0x85, 0xc0},
-		{0x85, 0xa5},
-		{0x85, 0x94},
+		{0x85, 0xc4},
+		{0x85, 0xb4},
+		{0x85, 0xa4},
 // Ground floor
 		{0x85, 0x94},
 		{0x7d, 0x94},
@@ -55,11 +55,9 @@ const vector<vector<pair<int, int> > > &MontezumaRevengeBreadcrumbsSettings::m_t
 		{0x25, 0x94},
 		{0x1d, 0x94},
 		{0x15, 0x94},
-
 		{0x15, 0xa0},
-		{0x15, 0xaf},
+		{0x15, 0xb0},
 		{0x15, 0xc0}}, {
-		{0x15, 0xc0},
 		{0x15, 0xaf},
 		{0x15, 0xa0},
 
@@ -79,9 +77,12 @@ const vector<vector<pair<int, int> > > &MontezumaRevengeBreadcrumbsSettings::m_t
 		{0x7d, 0x94},
 		{0x85, 0x94},
 
-		{0x85, 0x94},
-		{0x85, 0xa5},
-		{0x85, 0xc0},
+		{0x85, 0xa4},
+		{0x85, 0xb4},
+		{0x85, 0xc4},
+
+		{0x6d, 0xc5},
+
 		{0x7a, 0xc0},
 		{0x68, 0xc0},
 		{0x55, 0xc0},
@@ -94,15 +95,16 @@ const vector<vector<pair<int, int> > > &MontezumaRevengeBreadcrumbsSettings::m_t
 }
 
 void MontezumaRevengeBreadcrumbsSettings::paint_m_trail_lookup() {
-	memset(&m_trail_lookup[0][0], 0, sizeof(m_trail_lookup));
-	for(size_t i=0; i<m_trail()[m_trail_j].size(); i++)
-		for(int y=0; y<0x100; y++)
-			for(int x=0; x<0x100; x++) {
-				int dx=x-m_trail()[m_trail_j][i].first;
-				int dy=y-m_trail()[m_trail_j][i].second;
-				if(dx*dx+dy*dy/4 <= 10)
-					m_trail_lookup[y][x] = i+1;
-			}
+	memset(&m_trail_lookup[0][0][0], 0, sizeof(m_trail_lookup));
+	for(size_t trail_j=0; trail_j<2; trail_j++)
+		for(size_t i=0; i<m_trail()[trail_j].size(); i++)
+			for(int y=0; y<0x100; y++)
+				for(int x=0; x<0x100; x++) {
+					int dx=x-m_trail()[trail_j][i].first;
+					int dy=y-m_trail()[trail_j][i].second;
+					if(dx*dx+dy*dy/4 <= 10)
+						m_trail_lookup[y][x][trail_j] = i+1;
+				}
 }
 
 MontezumaRevengeBreadcrumbsSettings::MontezumaRevengeBreadcrumbsSettings() {
@@ -132,21 +134,22 @@ void MontezumaRevengeBreadcrumbsSettings::step(const System& system) {
     int new_lives = readRam(&system, 0xBA) + 1;
 
 	if(new_lives < m_lives) {
-		m_reward = -400;
+		m_reward = -10;
 		m_terminal = true;
 	} else {
-		m_reward = -1 + 3*(score-m_score);
-		int trail_i = m_trail_lookup[y][x];
-		if(trail_i > m_trail_i && trail_i-m_trail_i <= 5) {
-			m_reward += 150*(trail_i-m_trail_i);
+		m_reward = -1 + (score-m_score);
+		int trail_i = m_trail_lookup[y][x][m_trail_j];
+		if(trail_i > m_trail_i && trail_i-m_trail_i <= 2) {
+			m_reward += 100*(trail_i-m_trail_i);
 			m_trail_i = trail_i;
+			if(m_trail_i == m_trail()[m_trail_j].size()) {
+				if(m_trail_j == 1)
+					m_terminal = true;
+				else
+					m_trail_j = 1;
+				m_trail_i = 0;
+			}
 		}
-		if(m_trail_j ==0 && (readRam(&system, 0xC1) & 0x1e) != 0) {
-			m_trail_j++;
-			paint_m_trail_lookup();
-			m_trail_i = 0;
-		}
-		m_terminal = m_trail_j == (int) m_trail().size();
 	}
 	m_score = score;
 	m_lives = new_lives;
@@ -197,8 +200,8 @@ void MontezumaRevengeBreadcrumbsSettings::reset() {
     m_score    = 0;
     m_terminal = false;
     m_lives    = 0; // avoid setting terminal at the beginning
-	m_trail_j  = 0;
 	m_trail_i  = 0;
+	m_trail_j  = 0;
 }
 
 

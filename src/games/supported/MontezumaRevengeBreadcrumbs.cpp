@@ -29,6 +29,7 @@
 #include "../RomUtils.hpp"
 
 #include <cstring>
+#include <utility>
 using namespace std;
 
 vector<vector<pair<int, int> > > MontezumaRevengeBreadcrumbsSettings::_m_trail;
@@ -134,12 +135,12 @@ void MontezumaRevengeBreadcrumbsSettings::step(const System& system) {
     int new_lives = readRam(&system, 0xBA) + 1;
 
 	if(new_lives < m_lives) {
-		m_reward = -10;
+		m_reward = -50;
 		m_terminal = true;
 	} else {
-		m_reward = -1 + (score-m_score);
+		m_reward = /*-1 +*/ (score-m_score);
 		int trail_i = m_trail_lookup[y][x][m_trail_j];
-		if(trail_i > m_trail_i && trail_i-m_trail_i <= 2) {
+		if(trail_i > m_trail_i) {
 			m_reward += 100*(trail_i-m_trail_i);
 			m_trail_i = trail_i;
 			if(m_trail_i == m_trail()[m_trail_j].size()) {
@@ -151,6 +152,8 @@ void MontezumaRevengeBreadcrumbsSettings::step(const System& system) {
 			}
 		}
 	}
+	m_reward = max(min(m_reward, 100), -100);
+
 	m_score = score;
 	m_lives = new_lives;
 

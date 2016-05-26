@@ -20,11 +20,11 @@
 #include <sstream>
 
 StellaEnvironment::StellaEnvironment(OSystem* osystem, RomSettings* settings):
+  m_screen(osystem->console().mediaSource().height(),
+        osystem->console().mediaSource().width()),
   m_osystem(osystem),
   m_settings(settings),
   m_phosphor_blend(osystem),  
-  m_screen(m_osystem->console().mediaSource().height(),
-        m_osystem->console().mediaSource().width()),
   m_player_a_action(PLAYER_A_NOOP),
   m_player_b_action(PLAYER_B_NOOP) {
 

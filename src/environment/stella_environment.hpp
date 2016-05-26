@@ -78,9 +78,13 @@ class StellaEnvironment {
     int getFrameNumber() const { return m_state.getFrameNumber(); }
     int getEpisodeFrameNumber() const { return m_state.getEpisodeFrameNumber(); }
 
-  private:
+	System &getSystem() const { return m_osystem->console().system(); }
+
     /** This applies an action exactly one time step. Helper function to act(). */
     reward_t oneStepAct(Action player_a_action, Action player_b_action);
+    ALEScreen m_screen; // The current ALE screen (possibly colour-averaged)
+
+private:
 
     /** Actually emulates the emulator for a given number of steps. */
     void emulate(Action player_a_action, Action player_b_action, size_t num_steps = 1);
@@ -103,7 +107,6 @@ class StellaEnvironment {
     std::stack<ALEState> m_saved_states; // States are saved on a stack
     
     ALEState m_state; // Current environment state    
-    ALEScreen m_screen; // The current ALE screen (possibly colour-averaged)
     ALERAM m_ram; // The current ALE RAM
 
     bool m_use_paddles;  // Whether this game uses paddles

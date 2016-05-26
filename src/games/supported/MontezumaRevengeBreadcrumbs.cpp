@@ -138,7 +138,7 @@ void MontezumaRevengeBreadcrumbsSettings::step(const System& system) {
 		m_reward = -50;
 		m_terminal = true;
 	} else {
-		m_reward = /*-1 +*/ (score-m_score);
+		m_reward = -1 + (score-m_score);
 		int trail_i = m_trail_lookup[y][x][m_trail_j];
 		if(trail_i > m_trail_i) {
 			m_reward += 100*(trail_i-m_trail_i);
@@ -224,4 +224,3 @@ void MontezumaRevengeBreadcrumbsSettings::loadState(Deserializer & ser) {
   m_terminal = ser.getBool();
   m_lives = ser.getInt();
 }
-

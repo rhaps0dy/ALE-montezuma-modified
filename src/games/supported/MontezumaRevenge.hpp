@@ -72,6 +72,7 @@ class MontezumaRevengeSettings : public RomSettings {
         reward_t m_reward;
         reward_t m_score;
         int m_lives;
+	int screens_1, screens_2;
 };
 
 #endif // __MONTEZUMAREVENGE_HPP__

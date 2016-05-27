@@ -61,6 +61,20 @@ void MontezumaRevengeSettings::step(const System& system) {
 	new_lives = (new_lives & 0x7) + 1;
     m_reward = reward - (m_lives - new_lives)*5000;
     m_lives = new_lives;
+
+	int screen = readRam(&system, 0x83);
+	if(screen < 32) {
+		if(((screens_1 >> screen) & 0x1) == 0) {
+			m_reward += 1;
+			screens_1 |= 0x1<<screen;
+		}
+	} else {
+		screen -= 32;
+		if(((screens_1 >> screen) & 0x1) == 0) {
+			m_reward += 1;
+			screens_1 |= 0x1<<screen;
+		}
+	}
 }
 
 
@@ -104,6 +118,7 @@ void MontezumaRevengeSettings::reset() {
     m_score    = 0;
     m_terminal = false;
     m_lives    = 6;
+	screens_1 = screens_2 = 0;
 }
 
 
@@ -114,6 +129,8 @@ void MontezumaRevengeSettings::saveState(Serializer & ser) {
   ser.putInt(m_score);
   ser.putBool(m_terminal);
   ser.putInt(m_lives);
+  ser.putInt(screens_1);
+  ser.putInt(screens_2);
 }
 
 // loads the state of the rom settings
@@ -122,5 +139,7 @@ void MontezumaRevengeSettings::loadState(Deserializer & ser) {
   m_score = ser.getInt();
   m_terminal = ser.getBool();
   m_lives = ser.getInt();
+  screens_1 = ser.getInt();
+  screens_2 = ser.getInt();
 }
 

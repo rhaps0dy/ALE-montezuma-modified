@@ -2,6 +2,8 @@
 #define __ALE_C_WRAPPER_H__
 
 #include <ale_interface.hpp>
+#include <emucore/m6502/src/System.hxx>
+#include <stdint.h>
 
 extern "C" {
   // Declares int rgb_palette[256]
@@ -84,6 +86,12 @@ extern "C" {
   void encodeState(ALEState *state, char *buf, int buf_len);
   int encodeStateLen(ALEState *state);
   ALEState *decodeState(const char *serialized, int len);
+	void poke(ALEInterface *ale, uint16_t addr, uint8_t val) {
+		ale->theOSystem->console().system().poke(addr, val);
+	}
+	uint8_t peek(ALEInterface *ale, uint16_t addr) {
+		return ale->theOSystem->console().system().peek(addr);
+	}
 }
 
 #endif

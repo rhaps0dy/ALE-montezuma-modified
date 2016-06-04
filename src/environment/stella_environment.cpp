@@ -41,6 +41,7 @@ StellaEnvironment::StellaEnvironment(OSystem* osystem, RomSettings* settings):
   
   m_max_num_frames_per_episode = m_osystem->settings().getInt("max_num_frames_per_episode");
   m_colour_averaging = m_osystem->settings().getBool("color_averaging");
+  m_colour_averaging = false;
 
   m_repeat_action_probability = m_osystem->settings().getFloat("repeat_action_probability");
   
@@ -109,6 +110,7 @@ ALEState StellaEnvironment::cloneState() {
 
 void StellaEnvironment::restoreState(const ALEState& target_state) {
   m_state.load(m_osystem, m_settings, m_cartridge_md5, target_state, false);
+  processRAM();
 }
 
 ALEState StellaEnvironment::cloneSystemState() {
@@ -117,6 +119,7 @@ ALEState StellaEnvironment::cloneSystemState() {
 
 void StellaEnvironment::restoreSystemState(const ALEState& target_state) {
   m_state.load(m_osystem, m_settings, m_cartridge_md5, target_state, true);
+  processRAM();
 }
 
 void StellaEnvironment::noopIllegalActions(Action & player_a_action, Action & player_b_action) {

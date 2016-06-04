@@ -90,6 +90,10 @@ ale_lib.encodeStateLen.argtypes = [c_void_p]
 ale_lib.encodeStateLen.restype = c_int
 ale_lib.decodeState.argtypes = [c_void_p, c_int]
 ale_lib.decodeState.restype = c_void_p
+ale_lib.poke.argtypes = [c_void_p, c_uint16, c_uint8]
+ale_lib.poke.restype = None
+ale_lib.peek.argtypes = [c_void_p, c_uint16]
+ale_lib.peek.restype = c_uint8
 
 class ALEInterface(object):
     def __init__(self):
@@ -267,3 +271,8 @@ class ALEInterface(object):
 
     def __del__(self):
         ale_lib.ALE_del(self.obj)
+
+    def poke(self, addr, val):
+        ale_lib.poke(self.obj, addr, val)
+    def peek(self, addr):
+        return ale_lib.peek(self.obj, addr)

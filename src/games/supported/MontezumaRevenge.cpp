@@ -49,7 +49,7 @@ void MontezumaRevengeSettings::step(const System& system) {
 
     // update the reward
     int score = getDecimalScore(0x95, 0x94, 0x93, &system); 
-    int reward = score - m_score;
+    m_reward = score - m_score;
     m_score = score;
 
     // update terminal status
@@ -59,7 +59,6 @@ void MontezumaRevengeSettings::step(const System& system) {
 
     // Actually does not go up to 8, but that's alright
 	new_lives = (new_lives & 0x7) + 1;
-    m_reward = reward - (m_lives - new_lives)*5000;
     m_lives = new_lives;
 
 	int screen = readRam(&system, 0x83);

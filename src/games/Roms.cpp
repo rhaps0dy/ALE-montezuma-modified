@@ -59,6 +59,7 @@
 #include "supported/LostLuggage.hpp"
 #include "supported/MontezumaRevenge.hpp"
 #include "supported/MontezumaRevengeBreadcrumbs.hpp"
+#include "supported/MontezumaRevengeScreen.hpp"
 #include "supported/MrDo.hpp"
 #include "supported/MsPacman.hpp"
 #include "supported/NameThisGame.hpp"
@@ -138,6 +139,7 @@ static const RomSettings *roms[]  = {
     new LostLuggageSettings(),
     new MontezumaRevengeSettings(),
     new MontezumaRevengeBreadcrumbsSettings(),
+    new MontezumaRevengeScreenSettings(),
     new MrDoSettings(),
     new MsPacmanSettings(),
     new NameThisGameSettings(),

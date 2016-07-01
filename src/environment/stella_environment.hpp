@@ -93,12 +93,12 @@ private:
       *   from the minimal set of actions. */
     void noopIllegalActions(Action& player_a_action, Action& player_b_action);
 
+  public:
     /** Processes the current emulator screen and saves it in m_screen */
     void processScreen();
     /** Processes the emulator RAM and saves it in m_ram */
     void processRAM();
 
-  private:
     OSystem *m_osystem;
     RomSettings *m_settings;
     PhosphorBlend m_phosphor_blend; // For performing phosphor colour averaging, if so desired

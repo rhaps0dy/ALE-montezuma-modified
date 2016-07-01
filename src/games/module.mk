@@ -49,6 +49,7 @@ MODULE_OBJS := \
 	src/games/supported/LostLuggage.o \
 	src/games/supported/MontezumaRevenge.o \
 	src/games/supported/MontezumaRevengeBreadcrumbs.o \
+	src/games/supported/MontezumaRevengeScreen.o \
 	src/games/supported/MrDo.o \
 	src/games/supported/MsPacman.o \
 	src/games/supported/NameThisGame.o \

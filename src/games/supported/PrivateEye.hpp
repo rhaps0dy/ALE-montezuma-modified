@@ -28,6 +28,7 @@
 #define __PRIVATEEYE_HPP__
 
 #include "../RomSettings.hpp"
+#include <cstdint>
 
 
 /* RL wrapper for Private Eye */
@@ -73,6 +74,10 @@ class PrivateEyeSettings : public RomSettings {
         bool m_terminal;
         reward_t m_reward;
         reward_t m_score;
+	union {
+		uint32_t bitmask;
+		int number;
+	} m_visited;
 };
 
 #endif // __PRIVATEEYE_HPP__
